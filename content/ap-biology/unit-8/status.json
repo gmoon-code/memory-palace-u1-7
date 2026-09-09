@@ -1,0 +1,10 @@
+{
+  "unit_id": "unit-8",
+  "number": 8,
+  "title": "Ecology",
+  "status": "SOURCE_AVAILABLE_NOT_MIGRATED",
+  "pipeline_stage": "SOURCE_INVENTORY_PENDING",
+  "canonical_lock": "NOT_YET_BUILT",
+  "student_release": false,
+  "next_required_output": "source authority/coverage report and locked canonical catalog"
+}

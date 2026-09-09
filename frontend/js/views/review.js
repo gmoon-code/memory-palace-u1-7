@@ -1,0 +1,11 @@
+function esc(v=''){return String(v).replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]))}
+export function reviewView(items,total=items.length,mixedSets=[]){
+ if(!items.length)return `<main class="review-wrap"><section class="card review-empty"><span class="eyebrow">Review</span><h2>Nothing is due right now.</h2><p class="muted">Keep learning. The app quietly schedules a small number of memories after you encounter them in a story.</p><button class="primary" data-action="home">Back to home</button></section></main>`;
+ const x=items[0];
+ if(x.type==='mixed'){
+   const set=mixedSets.find(s=>s.set_id===x.setId); const q=set?.questions?.[Number(x.questionIndex||0)];
+   if(!set||!q)return `<main class="review-wrap"><section class="card review-empty"><h2>This mixed-review item could not be loaded.</h2><button class="primary" data-action="home">Back to home</button></section></main>`;
+   return `<main class="review-wrap"><section class="card review-card mixed-review-card"><span class="eyebrow">Mixed discrimination · ${esc(set.title)}</span><h2>${esc(q.prompt)}</h2><p class="muted">Choose the term that best matches the scientific description. Palace location is deliberately hidden.</p><div class="choice-grid">${q.choices.map(c=>`<button class="choice-button" data-action="mixed-choice" data-set="${esc(set.set_id)}" data-choice="${esc(c)}">${esc(c)}</button>`).join('')}</div><div id="reviewFeedback"></div><button class="ghost" data-action="home" style="margin-top:16px">Back to home</button></section></main>`;
+ }
+ return `<main class="review-wrap"><section class="card review-card"><span class="eyebrow">${total} due · showing at most 5 this session</span><h2>${esc(x.prompt)}</h2><p class="muted">Try to answer from the scientific meaning first. Use the story hint only if you need it.</p><input class="review-answer" id="reviewInput" autocomplete="off" placeholder="Type or say the term / idea to yourself"/><div class="row" style="margin-top:12px"><button class="primary" data-action="review-remembered" data-object="${esc(x.objectId)}">I remembered it</button><button class="secondary" data-action="review-hint" data-object="${esc(x.objectId)}">Need a hint</button></div><div id="reviewFeedback"></div><button class="ghost" data-action="home" style="margin-top:16px">Back to home</button></section></main>`
+}
